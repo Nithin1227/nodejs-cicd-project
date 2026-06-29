@@ -7,10 +7,9 @@ const PORT = process.env.PORT || 3000;
 // Home Page
 app.get("/", (req, res) => {
     res.send(`
-        <h1>🚀 Welcome to My DevOps Project</h1>
-        <h2>CI/CD using GitHub Actions</h2>
-        <p>Hosted on AWS EC2</p>
-    `);
+      <h1>🚀 GitHub Actions Deployment Successful!</h1>  
+      <h2>Version 2</h2>
+             `);
 });
 
 // Health Check
