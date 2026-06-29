@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-cicd-project",
+  "version": "1.0.0",
+  "description": "Node.js CI/CD Project using GitHub Actions and AWS",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "aws",
+    "terraform",
+    "github-actions",
+    "devops"
+  ],
+  "author": "Nithin Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

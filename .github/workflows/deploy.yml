@@ -1,0 +1,54 @@
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            APP_DIR=/home/ec2-user/apps/nodejs-cicd-project
+
+            if [ ! -d "$APP_DIR" ]; then
+              mkdir -p /home/ec2-user/apps
+              cd /home/ec2-user/apps
+              git clone https://github.com/YOUR_GITHUB_USERNAME/nodejs-cicd-project.git
+            fi
+
+            cd $APP_DIR
+
+            git fetch origin
+            git reset --hard origin/main
+
+            npm install
+
+            if pm2 describe node-app > /dev/null; then
+              pm2 restart node-app
+            else
+              pm2 start app.js --name node-app
+            fi
+
+            pm2 save
